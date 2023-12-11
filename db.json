@@ -1,0 +1,55 @@
+{
+    "trades": [
+        {
+        "id": 1,
+        "ticker": "1810.hk",
+        "name": "xiaomi",
+        "qty": 100,
+        "price": "1516",
+        "type": true,
+        "currencyId": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "exchangeId": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "cost": "151600",
+        "exchangeFees": "1000",
+        "realizedReturn": "1",
+        "realizedAmt": "1",
+        "realizedQty": 1,
+        "date": "2023-01-08T16:00:00.000Z",
+        "closeId": null
+        },
+        {
+        "id": 2,
+        "ticker": "1810.hk",
+        "name": "xiaomi",
+        "qty": 100,
+        "price": "1200",
+        "type": true,
+        "currencyId": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "exchangeId": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "cost": "120000",
+        "exchangeFees": "1000",
+        "realizedReturn": "1",
+        "realizedAmt": "1",
+        "realizedQty": 1,
+        "date": "2022-01-02T16:00:00.000Z",
+        "closeId": null
+        },
+        {
+        "id": 3,
+        "ticker": "1810.hk",
+        "name": "xiaomi",
+        "qty": 50,
+        "price": "1700",
+        "type": false,
+        "currencyId": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "exchangeId": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "cost": "85000",
+        "exchangeFees": "1000",
+        "realizedReturn": "1",
+        "realizedAmt": "1",
+        "realizedQty": 1,
+        "date": "2023-09-08T16:00:00.000Z",
+        "closeId": 1
+        }
+        ]
+}
