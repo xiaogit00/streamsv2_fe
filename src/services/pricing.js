@@ -1,7 +1,5 @@
 const getPrice = (ticker) => {
-    return(15)
+  return 15
 }
 
-export {
-    getPrice
-}
+export { getPrice }

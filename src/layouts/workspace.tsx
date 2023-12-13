@@ -1,18 +1,17 @@
-import Header from "../components/Header"
-import Filters from "../components/Filters"
-import Table from "../components/Table"
+import Header from '../components/Header'
+import Filters from '../components/Filters'
+import Table from '../components/Table'
 
-const Workspace = () => {
-    return(
-        <>  
-          <Header />
+const Workspace = (): React.JSX.Element => {
+  return (
+    <>
+      <Header />
 
-          <Filters />
-        
-          <Table />
-        </>
-    )
+      <Filters />
+
+      <Table />
+    </>
+  )
 }
 
 export default Workspace
-

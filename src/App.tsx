@@ -1,7 +1,7 @@
-import Main from './layouts/main';
-import './App.css';
+import Main from './layouts/main'
+import './App.css'
 
-function App() {
+function App(): React.JSX.Element {
   return <Main />
 }
-export default App;
+export default App
