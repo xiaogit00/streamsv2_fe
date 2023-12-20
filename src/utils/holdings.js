@@ -43,7 +43,6 @@ const process = (trades) => {
 
     // Finding weight & returns
     const closedWeight = sellTrade.qty / closedShares
-
     const net_r = (sellTrade.price - buyTrades[sellTrade.close_id].price) * sellTrade.qty
     const r =
       (sellTrade.price - buyTrades[sellTrade.close_id].price) / buyTrades[sellTrade.close_id].price

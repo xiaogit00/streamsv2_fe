@@ -12,3 +12,5 @@ export interface Trade {
     date: Date,
     close_id: string | null
 }
+
+export type NewTrade = Omit<Trade, 'id'>
