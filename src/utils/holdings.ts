@@ -1,11 +1,8 @@
 import _ from 'lodash'
+import { Trade } from '../types'
 // This is the core engine that turns an array of trades into intelligible holdings.
-const getPrice = (ticker) => {
-  if (ticker === '1810.hk') return 15
-  if (ticker === 'ORAN') return 6.5
-}
 
-const process = (trades) => {
+const process = (trades: Trade[], mktPrice: number | null) => {
   // For fields: qty, avgCostBasis
   let newTrades = _.cloneDeep(trades)
   const { openShares, totalCost, totalShares } = trades.reduce(
@@ -24,7 +21,6 @@ const process = (trades) => {
 
   const closedShares = totalShares - openShares
 
-  const mktPrice = getPrice(trades[0].ticker)
 
   // For unRealizedReturns, purchaseValue, and currentValue
   let buyTrades = newTrades
@@ -74,14 +70,15 @@ const process = (trades) => {
   return {
     ticker: newTrades[0].ticker,
     name: newTrades[0].name,
+    currency: newTrades[0].currency,
     openShares,
     avgCostBasis: Number((totalCost / totalShares).toFixed(2)),
     mktPrice,
     unrealizedReturns: Number(
-      ((mktPrice * 100 - avgUnrealizedCostBasis) / avgUnrealizedCostBasis).toFixed(2),
+      ((mktPrice - avgUnrealizedCostBasis) / avgUnrealizedCostBasis).toFixed(2),
     ),
     purchaseValue: unrealizedCostBasis,
-    currentValue: mktPrice * 100 * openShares,
+    currentValue: mktPrice * openShares,
     firstHeld: newTrades[0].date,
     returns_percent: Number(weightedReturnsPercent.reduce((a, b) => a + b, 0).toFixed(2)),
     returns_net: weightedReturnsNet.reduce((a, b) => a + b, 0),

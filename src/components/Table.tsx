@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { getTrades } from '../lib/api'
-import { Trade } from '../types'
 import TableHead from './TableHead'
 import TableRow from './TableRow'
+import { GroupedTrades } from '../types'
 
 const Table = () => {
   const { isLoading, isError, data, error } = useQuery({
@@ -16,13 +16,28 @@ const Table = () => {
   if (isError) {
     return <span>Error: {error.message}</span>
   }
+  if (!data) return null
 
+  const groupedByTicker = data.reduce<GroupedTrades>((acc, obj) => {
+    const { ticker } = obj;
+    if (!acc[ticker]) {
+      acc[ticker] = []
+    }
+    acc[ticker].push(obj)
+    return acc;
+  }, {})
+  
   return (
     <div id='table' className='h-full mt-2'>
       <table className='min-w-full divide-y divide-slate-400 divide-opacity-30'>
         <TableHead />
         <tbody className=''>
-          <TableRow data={data} />
+          {Object.entries(groupedByTicker).map((entries) => {
+            const [ticker, trades] = entries
+            return(
+              <TableRow key={trades[0].id} trades={trades} />
+            )
+          })}
         </tbody>
       </table>
     </div>

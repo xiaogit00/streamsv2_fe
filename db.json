@@ -36,8 +36,8 @@
         },
         {
         "id": 3,
-        "ticker": "1810.hk",
-        "name": "xiaomi",
+        "ticker": "AAPL",
+        "name": "Apple",
         "qty": 50,
         "price": "1700",
         "type": false,

@@ -5,12 +5,30 @@ export interface Trade {
     qty: number,
     price: number,
     type: boolean,
-    currency_id: string,
-    exchange_id: string,
+    currency: string,
+    exchange: string,
     cost: number,
     exchange_fees: number,
     date: Date,
     close_id: string | null
 }
 
+export interface GroupedTrades {
+    [key: string]: Trade[]
+}
+
+export interface SelectedStock {
+    currency: string,
+    exchangeShortName: string,
+    name: string,
+    stockExchange: string,
+    symbol: string
+}
+
 export type NewTrade = Omit<Trade, 'id'>
+
+export interface ErrorProps {
+    errors: any,
+    touched: any
+  }
+
