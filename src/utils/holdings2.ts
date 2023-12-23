@@ -1,10 +1,16 @@
 import _ from 'lodash'
-import { Trade, ProcessedTrades, BuyTradesById } from '../types'
-
+import { Trade } from '../types'
 // This is the core engine that turns an array of trades into intelligible holdings.
 
+interface BuyTradesById {
+  [key: string]: Trade
+}
 
-const process = (trades: Trade[]): ProcessedTrades => {
+interface SellTrade extends Trade {
+  close_id: string
+}
+
+const process = (trades: Trade[], stockPrice: number | null) => {
   // For fields: qty, avgCostBasis
   const newTrades = _.cloneDeep(trades)
   console.log("Process function is ran")
@@ -39,7 +45,7 @@ const process = (trades: Trade[]): ProcessedTrades => {
       return acc
     }, {})
     
-  // For unrealizedCostBasis, purchaseValue, and currentValue
+  // For unRealizedReturns, purchaseValue, and currentValue
   const weightedReturnsPercent: number[] = []
   const weightedReturnsNet: number[] = []
   const sellTrades = newTrades.filter((trade) => !trade.type)
@@ -69,6 +75,23 @@ const process = (trades: Trade[]): ProcessedTrades => {
     return acc
   }, 0)
 
+  const avgUnrealizedCostBasis = unrealizedCostBasis / openShares
+
+  if (!stockPrice) {
+    return {
+      ticker: newTrades[0].ticker,
+      name: newTrades[0].name,
+      currency: newTrades[0].currency,
+      openShares,
+      avgCostBasis,
+      purchaseValue: unrealizedCostBasis,
+      firstHeld: newTrades[0].date,
+      currentValue: null,
+      unrealizedReturns: null,
+      returns_percent: null,
+      returns_net: null,
+    }
+  }
 
   return {
     ticker: newTrades[0].ticker,
@@ -78,6 +101,10 @@ const process = (trades: Trade[]): ProcessedTrades => {
     avgCostBasis,
     purchaseValue: unrealizedCostBasis,
     firstHeld: newTrades[0].date,
+    currentValue: stockPrice * openShares,
+    unrealizedReturns: Number(
+      ((stockPrice - avgUnrealizedCostBasis) / avgUnrealizedCostBasis).toFixed(2),
+    ),
     returns_percent: Number(weightedReturnsPercent.reduce((a, b) => a + b, 0).toFixed(2)),
     returns_net: weightedReturnsNet.reduce((a, b) => a + b, 0),
   }

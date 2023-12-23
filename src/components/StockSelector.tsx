@@ -38,6 +38,9 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
             setShowSearchDropdown(true)
             setSearchResults(res.data)
           })
+          .catch((err: any) => {
+            console.log("Error fetching tickers:\n",err.message)
+          })
       }
     }, [debouncedInput])
   

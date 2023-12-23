@@ -17,6 +17,18 @@ export interface GroupedTrades {
     [key: string]: Trade[]
 }
 
+export interface ProcessedTrades {
+    ticker: string,
+    name: string,
+    currency: string,
+    openShares: number,
+    avgCostBasis: number,
+    purchaseValue: number,
+    firstHeld: Date,
+    returns_percent: number,
+    returns_net: number
+  }
+
 export interface SelectedStock {
     currency: string,
     exchangeShortName: string,
@@ -24,6 +36,10 @@ export interface SelectedStock {
     stockExchange: string,
     symbol: string
 }
+
+export interface BuyTradesById {
+    [key: string]: Trade
+  }
 
 export type NewTrade = Omit<Trade, 'id'>
 

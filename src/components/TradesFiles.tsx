@@ -17,9 +17,11 @@ const TradesFiles = ({ show }: TradesFilesProps) => {
   let newTrade: NewTrade | null = null
   if (variables.length > 0) {
     try {
+      console.log(variables[0])
       newTrade = toNewTrade(variables[0])
     } catch (err) {
       alert("Network error.")
+      console.log(err)
     }
   }
   

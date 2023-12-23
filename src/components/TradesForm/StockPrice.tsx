@@ -10,7 +10,6 @@ const StockPrice = ({ ticker, currency, stockPrice, setStockPrice }: StockPriceP
   
     useEffect(() => {
       setLoading(true)
-      const res = getStockPrice(ticker)
       
       getStockPrice(ticker)
         .then((res: any) => {
@@ -21,6 +20,9 @@ const StockPrice = ({ ticker, currency, stockPrice, setStockPrice }: StockPriceP
             setIsError(true)
           }
           setLoading(false)
+        })
+        .catch((err: any) => {
+          console.log("Error fetching prices:\n", err.message)
         })
     }, [ticker])
     if (loading) return <Spinner />

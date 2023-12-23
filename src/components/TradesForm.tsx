@@ -19,6 +19,8 @@ import SubmitButton from './TradesForm/SubmitButton'
 const TradesForm = () => {
   const [tradeType, setTradeType] = useState<boolean>(true)
   const [selectedStock, setSelectedStock] = useState<SelectedStock | null>(null) 
+  const [matchingBuyTradeId, setmatchingBuyTradeId] = useState<string | null>(null)
+  const [matchingBuyTradeRequired, setmatchingBuyTradeRequired] = useState<boolean>(false)
   const [stockPrice, setStockPrice] = useState<string | null>(null)
   const [inputRequired, setInputRequired] = useState<boolean>(false)
   
@@ -40,7 +42,13 @@ const TradesForm = () => {
     } else {
       setInputRequired(false)
     }
-    const {price, qty} = values
+    if (!tradeType && !matchingBuyTradeId) {
+      setmatchingBuyTradeRequired(true)
+      return
+    } else {
+      setmatchingBuyTradeRequired(false)
+    }
+    const {price, qty, exchange_fees} = values
     const cost = Number(price) * Number(qty)
     values = {
       ...values,
@@ -49,7 +57,9 @@ const TradesForm = () => {
       name: selectedStock.name,
       ticker: selectedStock.symbol,
       currency: selectedStock.currency,
-      exchange: selectedStock.exchangeShortName
+      exchange: selectedStock.exchangeShortName,
+      exchange_fees: exchange_fees === '' ? 0 : exchange_fees,
+      close_id: matchingBuyTradeId ? matchingBuyTradeId : null
     }
     // await new Promise((resolve) => setTimeout(resolve, 1000))
     // alert(JSON.stringify(values, null, 2))
@@ -86,7 +96,12 @@ const TradesForm = () => {
             {!tradeType && (
               <>
                 <SellingFromLabel />
-                <SellingFrom />
+                <SellingFrom 
+                  selectedStock={selectedStock} 
+                  setmatchingBuyTradeId={setmatchingBuyTradeId}
+                  matchingBuyTradeRequired={matchingBuyTradeRequired}
+                  setmatchingBuyTradeRequired={setmatchingBuyTradeRequired}
+                />
               </>
             )}
             <AdditionalOptions />

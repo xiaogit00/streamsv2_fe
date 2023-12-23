@@ -18,14 +18,14 @@ const parseString = (text: unknown): string => {
 }
 
 const parseNumber = (text: unknown): number => {
-    if (!text || !isNumber(text)) {
+    if (text === null || !isNumber(text)) {
         throw new Error('Incorrect or missing number.')
     }
     return text
 }
 
 const parseBool = (text: unknown): boolean => {
-    if (!text || typeof text !== 'boolean') {
+    if (text === null || typeof text !== 'boolean') {
         throw new Error('Incorrect or missing boolean.')
     }
     return text

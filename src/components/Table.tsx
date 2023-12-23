@@ -2,7 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { getTrades } from '../lib/api'
 import TableHead from './TableHead'
 import TableRow from './TableRow'
-import { GroupedTrades } from '../types'
+import { GroupedTrades, ProcessedTrades } from '../types'
+import { process } from '../utils/holdings'
 
 const Table = () => {
   const { isLoading, isError, data, error } = useQuery({
@@ -34,8 +35,9 @@ const Table = () => {
         <tbody className=''>
           {Object.entries(groupedByTicker).map((entries) => {
             const [ticker, trades] = entries
+            const processedData: ProcessedTrades = process(trades)
             return(
-              <TableRow key={trades[0].id} trades={trades} />
+              <TableRow key={trades[0].id} processedTrades={processedData} />
             )
           })}
         </tbody>

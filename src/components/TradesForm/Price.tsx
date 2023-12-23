@@ -27,7 +27,7 @@ const PriceInput = ({errors, touched }: ErrorProps) => {
         <div id='row2Input' className='mb-1'>
         <Field
             name='price'
-            type='text'
+            type='number'
             className='w-full bg-transparent p-1 text-xs rounded-md border border-slate-700 outline-none focus:border-slate-600'
             autoComplete='off'
         />
