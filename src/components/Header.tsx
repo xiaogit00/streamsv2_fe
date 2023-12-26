@@ -1,8 +1,21 @@
-const Header = () => {
+import { ActiveTab } from "../types"
+
+interface HeaderProps {
+  activeTab: ActiveTab
+}
+
+const Header = ({ activeTab }: HeaderProps) => {
   return (
     <div id='header' className='h-12 border-b border-y-slate-600 flex items-center'>
       <div id='pageTitle' className='m-2 p-2'>
-        <h4 className='text-slate-200 font-semibold text-sm'>Holdings</h4>
+        <h4 className='text-slate-200 font-semibold text-sm w-16'>
+          {activeTab === ActiveTab.Holdings 
+          ? 'Holdings'
+        : activeTab === ActiveTab.Streams 
+        ? 'Streams'
+        : 'Trades'
+        }
+        </h4>
       </div>
       <div
         id='buttonContainer'

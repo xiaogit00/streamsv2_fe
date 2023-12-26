@@ -17,6 +17,14 @@ export interface GroupedTrades {
     [key: string]: Trade[]
 }
 
+export interface StreamTrade extends Trade {
+  stream_id: string
+}
+
+export interface GroupedStreamTrades {
+  [key: string]: StreamTrade[]
+}
+
 export interface ProcessedTrades {
     ticker: string,
     name: string,
@@ -48,3 +56,8 @@ export interface ErrorProps {
     touched: any
   }
 
+export enum ActiveTab {
+  Holdings = 0,
+  Streams = 1,
+  Trades = 2
+}

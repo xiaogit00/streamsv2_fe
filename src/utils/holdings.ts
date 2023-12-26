@@ -7,7 +7,6 @@ import { Trade, ProcessedTrades, BuyTradesById } from '../types'
 const process = (trades: Trade[]): ProcessedTrades => {
   // For fields: qty, avgCostBasis
   const newTrades = _.cloneDeep(trades)
-  console.log("Process function is ran")
   const { openShares, totalCost, totalShares } = trades.reduce(
     (acc, curr) => {
       if (curr.type) {
@@ -68,7 +67,6 @@ const process = (trades: Trade[]): ProcessedTrades => {
     acc += curr.qty * Number(curr.price)
     return acc
   }, 0)
-
 
   return {
     ticker: newTrades[0].ticker,

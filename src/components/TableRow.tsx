@@ -20,7 +20,7 @@ const TableRow = ({ processedTrades }: {processedTrades: ProcessedTrades}) => {
             setStockPrice(currPrice)
             
             const avgUnrealizedCostBasis = processedTrades.openShares === 0 ? 0 : processedTrades.purchaseValue / processedTrades.openShares
-            const unrealizedReturns = avgUnrealizedCostBasis === 0 ? 0 : Number(((currPrice - avgUnrealizedCostBasis) / avgUnrealizedCostBasis).toFixed(2))
+            const unrealizedReturns = avgUnrealizedCostBasis === 0 ? 0 : Number(((currPrice - avgUnrealizedCostBasis) / avgUnrealizedCostBasis).toFixed(3))
             setUnrealizedReturns(unrealizedReturns)
             setCurrentValue(currPrice * processedTrades.openShares)
             

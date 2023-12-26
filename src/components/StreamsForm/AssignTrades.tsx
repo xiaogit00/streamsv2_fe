@@ -1,4 +1,8 @@
+import { useQuery } from "@tanstack/react-query"
 import { Field } from "formik"
+import { getTrades } from "../../lib/api"
+import { SelectedStock, Trade } from "../../types"
+import { formatDate } from "../../utils/formatDate"
 
 const AssignTradesLabel = () => {
     return(
@@ -9,57 +13,53 @@ const AssignTradesLabel = () => {
         </div>
     )
 }
+interface AssignTradesProps {
+  selectedStock: SelectedStock | null
+}
 
-const AssignTrades = () => {
-    return(
-        <div id='sellingFrom' className='h-48 bg-slate-900 overflow-y-auto scrollbar rounded-md border border-slate-700 flex flex-col text-[0.7em]'>
-              <label>
-                <div 
-                  key={123} 
-                  className={`px-2 p-1 h-10 flex justify-between items-center hover:bg-slate-700 cursor-pointer`}
-                >
-                  <Field type="checkbox" name="assignTrades" value="One" />
-                  <div id='streamNamePrice' className='flex flex-col items-start px-2'>
-                    <div className='text-sm font-semibold'>Xiaomi</div>
-                    <div className=''>$18.30</div>
-                  </div>
-                  <div className='font-semibold'> 16/9/23</div>
-                  <div className='font-semibold'> 120 shares</div>
-                  <IndicatorSmall trade='Buy' />
+const AssignTrades = ({ selectedStock }: AssignTradesProps) => {
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['trades'],
+    queryFn: getTrades,
+  })
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
+  let filteredTrades: Trade[] = []
+  if (data && selectedStock) {
+    filteredTrades = data.filter(trade => trade.ticker === selectedStock.symbol)
+  }
+  return(
+      <div id='sellingFrom' className='h-48 bg-slate-900 overflow-y-auto scrollbar rounded-md border border-slate-700 flex flex-col text-[0.7em]'>
+        {filteredTrades.length > 0 
+        ? filteredTrades.map(trade => {
+          return(
+            <label key={trade.id}>
+              <div 
+                key={trade.id} 
+                className={`px-2 p-1 pr-1 h-10 flex justify-between items-center hover:bg-slate-700 cursor-pointer`}
+              >
+                <Field type="checkbox" name="assigned_trades" value={trade.id} />
+                <div id='streamNamePrice' className='flex flex-col items-start px-2 w-16 whitespace-nowrap overflow-hidden text-ellipsis'>
+                  <div className='text-sm font-semibold'>{trade.ticker}</div>
+                  <div className=''>${Number(trade.price).toFixed(2)}</div>
                 </div>
-              </label>
-              <label>
-                <div 
-                  key={123} 
-                  className={`px-2 p-1 h-10 flex justify-between items-center hover:bg-slate-700 cursor-pointer`}
-                >
-                  <Field type="checkbox" name="assignTrades" value="Two" />
-                  <div id='streamNamePrice' className='flex flex-col items-start px-2'>
-                    <div className='text-sm font-semibold'>Xiaomi</div>
-                    <div className=''>$18.30</div>
-                  </div>
-                  <div className='font-semibold'> 16/9/23</div>
-                  <div className='font-semibold'> 120 shares</div>
-                  <IndicatorSmall trade='Buy' />
-                </div>
-              </label>
-              <label>
-                <div 
-                  key={123} 
-                  className={`px-2 p-1 h-10 flex justify-between items-center hover:bg-slate-700 cursor-pointer`}
-                >
-                  <Field type="checkbox" name="assignTrades" value="Three" />
-                  <div id='streamNamePrice' className='flex flex-col items-start px-2'>
-                    <div className='text-sm font-semibold'>Xiaomi</div>
-                    <div className=''>$18.30</div>
-                  </div>
-                  <div className='font-semibold'> 16/9/23</div>
-                  <div className='font-semibold'> 120 shares</div>
-                  <IndicatorSmall trade='Buy' />
-                </div>
-              </label>
-            </div>
-    )
+                <div className='font-semibold'> {formatDate(trade.date)}</div>
+                <div className='font-semibold'> {trade.qty} shares</div>
+                <IndicatorSmall trade='Buy' />
+              </div>
+            </label>
+          )
+        })
+        : null
+        }
+        
+      </div>
+  )
 }
 
 export {

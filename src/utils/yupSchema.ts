@@ -13,3 +13,8 @@ export const TradeSchema = Yup.object().shape({
     exchange_fees: Yup.number()
       .typeError('*Fees must be a number.'),
   });
+
+export const StreamSchema = Yup.object().shape({
+  name: Yup.string()
+    .typeError('*Please enter a valid name.'),
+});

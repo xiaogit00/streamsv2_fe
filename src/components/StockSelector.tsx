@@ -48,7 +48,7 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
       <div className='mx-2 relative'>
         <input
           id='tickerSearch'
-          placeholder='Enter asset name/ticker'
+          placeholder='*Enter asset name/ticker'
           className='bg-slate-700 w-full outline-none text-sm p-1'
           value={inputValue}
           onChange={handleInputChange}

@@ -13,7 +13,7 @@ function padTo2Digits(num) {
 export const initialTradeFormValues = {
     date: formatDate(),
     type: true,
-    qty: '',
+    qty: 10000,
     price: '',
     exchange_fees: '',
     currency: '',
@@ -22,6 +22,16 @@ export const initialTradeFormValues = {
     ticker: '',
     name: '',
 }
+
+export const initialStreamFormValues = {
+    ticker: '',
+    stream_name: '',
+    currency: '',
+    exchange: '',
+    assigned_trades: [],
+    date_created: formatDate()
+}
+
 
 export const dummySearchReponse = [
     {
