@@ -4,6 +4,7 @@ import logo from '../assets/xiaomi.png'
 import { NewTrade } from '../types'
 import { toNewTrade } from '../utils/typeguards'
 import { useState } from 'react'
+import Indicator from './Indicator'
 
 interface TradesFilesProps {
   show: boolean
@@ -76,13 +77,5 @@ const TradesFiles = ({ show }: TradesFilesProps) => {
 
 export default TradesFiles
 
-interface IndicatorProps {
-  trade: string
-}
-const Indicator = ({ trade }: IndicatorProps) => {
-  return (
-    <div className='text-slate-400 bg-teal-950 border border-slate-300 border-opacity-30 focus:ring-1 focus:outline-none focus:ring-slate-800 rounded-3xl text-xs px-2 text-center inline-flex items-center'>
-      {trade}
-    </div>
-  )
-}
+
+

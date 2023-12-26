@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { DownOutlined, RightOutlined } from '@ant-design/icons'
 import TradesFiles from '../components/TradesFiles'
-import TradesForm from '../components/TradesForm'
+import NewForm from '../components/NewForm'
 
 const FolderPanel = (): React.JSX.Element => {
   const [showStreams, setShowStreams] = useState<boolean>(false)
@@ -33,7 +33,7 @@ const FolderPanel = (): React.JSX.Element => {
       </div>
 
       <TradesFiles show={showTrades} />
-      <TradesForm />
+      <NewForm />
     </div>
   )
 }

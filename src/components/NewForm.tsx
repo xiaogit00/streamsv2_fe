@@ -15,14 +15,17 @@ import { PriceLabel, PriceInput } from './TradesForm/Price'
 import { FeesInput, FeesLabel } from './TradesForm/Fees'
 import AdditionalOptions from './TradesForm/AdditionalOptions'
 import SubmitButton from './TradesForm/SubmitButton'
+import { StreamName, StreamLabel } from './StreamsForm/StreamName'
+import { AssignTrades, AssignTradesLabel } from './StreamsForm/AssignTrades'
 
-const TradesForm = () => {
+const NewForm = () => {
   const [tradeType, setTradeType] = useState<boolean>(true)
   const [selectedStock, setSelectedStock] = useState<SelectedStock | null>(null) 
   const [matchingBuyTradeId, setmatchingBuyTradeId] = useState<string | null>(null)
   const [matchingBuyTradeRequired, setmatchingBuyTradeRequired] = useState<boolean>(false)
   const [stockPrice, setStockPrice] = useState<string | null>(null)
   const [inputRequired, setInputRequired] = useState<boolean>(false)
+  const [isTradeActive, setIsTradeActive] = useState<boolean>(true)
   
   const queryClient = useQueryClient()
 
@@ -35,7 +38,7 @@ const TradesForm = () => {
     mutationKey: ['newTrade']
   })
 
-  const submitHandler = async (values: any) => {
+  const submitTradeHandler = async (values: any) => {
     if (!selectedStock) {
       setInputRequired(true)
       return
@@ -77,9 +80,13 @@ const TradesForm = () => {
         selectedStock={selectedStock}
         stockPrice={stockPrice}
         setStockPrice={setStockPrice}
+        isTradeActive={isTradeActive}
+        setIsTradeActive={setIsTradeActive}
       />
 
-      <Formik initialValues={initialTradeFormValues} validationSchema={TradeSchema} onSubmit={submitHandler}>
+      {isTradeActive 
+      ? (
+        <Formik initialValues={initialTradeFormValues} validationSchema={TradeSchema} onSubmit={submitTradeHandler}>
         {({ errors, touched }) => (
           <Form className='m-2 flex flex-col gap-2'>
             <DateTypeLabels />
@@ -105,15 +112,29 @@ const TradesForm = () => {
               </>
             )}
             <AdditionalOptions />
-            <SubmitButton />
+            <SubmitButton type={isTradeActive} />
           </Form>
         )}
         
       </Formik>
+      )
+      : (
+        <Formik initialValues={initialTradeFormValues} validationSchema={TradeSchema} onSubmit={submitTradeHandler}>
+        {({ errors, touched }) => (
+          <Form className='m-2 flex flex-col gap-2'>
+            <StreamLabel />
+            <StreamName errors={errors} touched={touched}/>
+            <AssignTradesLabel />
+            <AssignTrades />
+            <SubmitButton type={isTradeActive}/>
+          </Form>
+        )}
+        
+      </Formik>
+      )}
       
     </div>
   )
 }
-export default TradesForm
-
+export default NewForm
 
