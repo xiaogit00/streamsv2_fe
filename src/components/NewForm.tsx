@@ -2,10 +2,8 @@ import { Formik, Field, Form } from 'formik'
 import { useEffect, useState } from 'react'
 import StockSelector from './StockSelector'
 import { initialStreamFormValues, initialTradeFormValues } from '../utils/initialValues'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 import { StreamSchema, TradeSchema } from '../utils/yupSchema'
-import { SelectedStock } from '../types'
+import { NewStreamWithTrades, NewTrade, SelectedStock } from '../types'
 import StockDisplay from './TradesForm/StockDisplay'
 import { SellingFrom, SellingFromLabel } from './TradesForm/SellTrades'
 import { DateTypeLabels, DateSelector } from './TradesForm/Date'
@@ -18,6 +16,8 @@ import SubmitButton from './TradesForm/SubmitButton'
 import { StreamName, StreamLabel } from './StreamsForm/StreamName'
 import { AssignTrades, AssignTradesLabel } from './StreamsForm/AssignTrades'
 import TabsSelector from './TabsSelector'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 
 const NewForm = () => {
   const [tradeType, setTradeType] = useState<boolean>(true)
@@ -30,8 +30,8 @@ const NewForm = () => {
   
   const queryClient = useQueryClient()
 
-  const mutation = useMutation({
-    mutationFn: async (newTrade) => {
+  const createTradeMutation = useMutation({
+    mutationFn: async (newTrade: NewTrade) => {
       await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulating delay 
       return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/trades', newTrade)
     }, 
@@ -39,19 +39,41 @@ const NewForm = () => {
     mutationKey: ['newTrade']
   })
 
+  const createStreamAndAssignMutation = useMutation({
+    mutationFn: async (newStream: NewStreamWithTrades) => {
+      console.log("createStreamandAssign is called")
+        const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream)
+        const streamId = res.data.id
+        const bulkAssignPayload = {
+            stream_id: streamId,
+            trades: newStream.trades
+        }
+        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/stream-trades/bulk-assign', bulkAssignPayload)
+    }, 
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['streams']}),
+    mutationKey: ['newStream']
+    })
+
+  const createStreamMutation = useMutation({
+    mutationFn: async (newStream) => {
+      console.log("createStream is called")
+        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream)
+    }, 
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['streams']}),
+    mutationKey: ['newStream']
+    })
+
   const submitTradeHandler = async (values: any) => {
     if (!selectedStock) {
       setInputRequired(true)
       return
-    } else {
-      setInputRequired(false)
-    }
+    } else setInputRequired(false)
+
     if (!tradeType && !matchingBuyTradeId) {
       setmatchingBuyTradeRequired(true)
       return
-    } else {
-      setmatchingBuyTradeRequired(false)
-    }
+    } else setmatchingBuyTradeRequired(false)
+
     const {price, qty, exchange_fees} = values
     const cost = Number(price) * Number(qty)
     values = {
@@ -65,18 +87,26 @@ const NewForm = () => {
       exchange_fees: exchange_fees === '' ? 0 : exchange_fees,
       close_id: matchingBuyTradeId ? matchingBuyTradeId : null
     }
-    // await new Promise((resolve) => setTimeout(resolve, 1000))
-    // alert(JSON.stringify(values, null, 2))
-    mutation.mutate(values)
+    createTradeMutation.mutate(values)
   }
 
   const submitStreamHandler = async (values: any) => {
+    if (!selectedStock) {
+      setInputRequired(true)
+      return
+    } else setInputRequired(false)
+    
+    values = {
+      ...values,
+      ticker: selectedStock.symbol,
+      currency: selectedStock.currency,
+      exchange: selectedStock.exchangeShortName
+    }
     console.log(values)
-    const { assigned_trades } = values.assigned_trades
-    if (assigned_trades.length > 0) {
-      console.log('POST call to CreateStreamAndAssign service - which does 2 calls')
+    if (values.trades.length > 0) {
+      createStreamAndAssignMutation.mutate(values)
     } else {
-      console.log('POST call to createStream - just 1 call.')
+      createStreamMutation.mutate(values)
     }
   }
 

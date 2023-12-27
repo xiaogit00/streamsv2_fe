@@ -28,7 +28,7 @@ export const initialStreamFormValues = {
     stream_name: '',
     currency: '',
     exchange: '',
-    assigned_trades: [],
+    trades: [],
     date_created: formatDate()
 }
 

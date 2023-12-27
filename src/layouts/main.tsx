@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { SearchOutlined, FileOutlined, SettingOutlined } from '@ant-design/icons'
-import FolderPanel from './folderPanel'
+import FolderPanel from './FolderPanel'
 import Workspace from './Workspace'
 
 const Main = (): React.JSX.Element => {

@@ -1,3 +1,5 @@
+export type UUID = string
+
 export interface Trade {
     id: string,
     ticker: string,
@@ -13,6 +15,25 @@ export interface Trade {
     close_id: string | null
 }
 
+export interface Stream {
+  id: string,
+  ticker: string,
+  stream_name: string,
+  currency: string,
+  exchange: string,
+  date_created: Date,
+}
+
+export type NewStream = Omit<Stream, 'id'>
+
+export interface NewStreamWithTrades extends NewStream {
+  trades: string[]
+}
+
+export interface StreamTradesRequest {
+  stream_id: UUID,
+  trades: UUID[]
+}
 export interface GroupedTrades {
     [key: string]: Trade[]
 }
