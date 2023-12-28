@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { getTrades } from '../lib/api'
 import TableHead from '../components/TableHead'
-import TableRow from '../components/TableRow'
-import { GroupedTrades, ProcessedTrades } from '../types'
+import { ActiveTab, GroupedTrades, ProcessedTrades } from '../types'
 import { process } from '../utils/holdings'
+import TableRowHoldings from '../components/TableRowHoldings'
 
-const HoldingsPage = () => {
+const HoldingsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['trades'],
     queryFn: getTrades,
@@ -29,15 +29,15 @@ const HoldingsPage = () => {
   }, {})
   
   return (
-    <div id='table' className='h-full mt-2'>
+    <div id='table' className={`h-full mt-2 ${activeTab === ActiveTab.Holdings ? '' : 'hidden'}`}>
       <table className='min-w-full divide-y divide-slate-400 divide-opacity-30'>
-        <TableHead />
+        <TableHead type={'holdings'}/>
         <tbody className=''>
           {Object.entries(groupedByTicker).map((entries) => {
             const [ticker, trades] = entries
             const processedData: ProcessedTrades = process(trades)
             return(
-              <TableRow key={trades[0].id} processedTrades={processedData} />
+              <TableRowHoldings key={trades[0].id} processedTrades={processedData} />
             )
           })}
         </tbody>

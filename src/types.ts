@@ -1,3 +1,5 @@
+import { number } from "yup"
+
 export type UUID = string
 
 export interface Trade {
@@ -58,6 +60,21 @@ export interface ProcessedTrades {
     returns_net: number
   }
 
+
+export interface ColdStreamsCalc {
+  ticker: string,
+  name: string,
+  currency: string,
+  firstHeld: Date,
+  totalQty: number,
+  qtyOpen: number,
+  qtySold: number,
+  avgBuyPrice: number,
+  avgSellPrice: number,
+  purchaseValueOpen: number,
+  realizedReturns: number,
+  realizedReturnsNet: number
+}
 export interface SelectedStock {
     currency: string,
     exchangeShortName: string,
@@ -81,4 +98,10 @@ export enum ActiveTab {
   Holdings = 0,
   Streams = 1,
   Trades = 2
+}
+
+export interface HotValue {
+  currentValue: number,
+  mktPrice: number,
+  unrealizedReturns: number
 }

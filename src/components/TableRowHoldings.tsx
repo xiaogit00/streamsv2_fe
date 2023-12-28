@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getStockPrice } from '../services/pricing';
 import Spinner from './Spinner';
 
-const TableRow = ({ processedTrades }: {processedTrades: ProcessedTrades}) => {
+const TableRowHoldings = ({ processedTrades }: {processedTrades: ProcessedTrades}) => {
 
     const [isError, setIsError] = useState<boolean>(false)
     const [stockPrice, setStockPrice] = useState<number | null>(null)
@@ -46,7 +46,7 @@ const TableRow = ({ processedTrades }: {processedTrades: ProcessedTrades}) => {
         <td className='px-4 py-4 text-sm whitespace-nowrap'>{processedTrades.openShares}</td>
         <td className='tableRow'>{processedTrades.currency}${processedTrades.avgCostBasis}</td>
         <td className='tableRow'>{processedTrades.currency}${isError ? 'error' : stockPrice ? stockPrice : <Spinner />}</td>
-        <td className='tableRow'>{isError ? 'error' : unrealizedReturns !== null  ? unrealizedReturns * 100 : <Spinner />}%</td>
+        <td className='tableRow'>{isError ? 'error' : unrealizedReturns !== null  ? Number(unrealizedReturns * 100).toFixed(2) : <Spinner />}%</td>
         <td className='tableRow'>{processedTrades.currency}${isError ? 'error' : processedTrades.purchaseValue}</td>
         <td className='tableRow'>{processedTrades.currency}${isError ? 'error' : currentValue !== null ? currentValue : <Spinner />}</td>
         <td className='tableRow'>{`${diffYears} yrs ${remainingMonths} mo`}</td>
@@ -55,4 +55,4 @@ const TableRow = ({ processedTrades }: {processedTrades: ProcessedTrades}) => {
     )
   }
 
-export default TableRow
+export default TableRowHoldings

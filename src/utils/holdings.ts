@@ -82,4 +82,5 @@ const process = (trades: Trade[]): ProcessedTrades => {
 }
 
 
+
 export { process }
