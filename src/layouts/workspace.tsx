@@ -6,11 +6,11 @@ import Tabs from '../components/Tabs'
 import HoldingsPage from './HoldingsPage'
 import StreamsPage from './StreamsPage'
 
-const Workspace = (): React.JSX.Element => {
-  const [activeTab, setActiveTab] = useState<ActiveTab>(ActiveTab.Holdings)
+const Workspace = ({activeTab, setActiveTab }: {activeTab: ActiveTab, setActiveTab: React.Dispatch<React.SetStateAction<ActiveTab>>}): React.JSX.Element => {
+  
   
   return (
-    <>
+    <div className='overflow-x-visible'>
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab}/>
 
       <Header activeTab={activeTab}/>
@@ -18,7 +18,7 @@ const Workspace = (): React.JSX.Element => {
       <Filters />
       <HoldingsPage activeTab={activeTab}/>
       <StreamsPage activeTab={activeTab}/>
-    </>
+    </div>
   )
 }
 

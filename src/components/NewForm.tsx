@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import StockSelector from './StockSelector'
 import { initialStreamFormValues, initialTradeFormValues } from '../utils/initialValues'
 import { StreamSchema, TradeSchema } from '../utils/yupSchema'
-import { NewStreamWithTrades, NewTrade, SelectedStock } from '../types'
+import { ActiveTab, NewStreamWithTrades, NewTrade, SelectedStock } from '../types'
 import StockDisplay from './TradesForm/StockDisplay'
 import { SellingFrom, SellingFromLabel } from './TradesForm/SellTrades'
 import { DateTypeLabels, DateSelector } from './TradesForm/Date'
@@ -19,7 +19,7 @@ import TabsSelector from './TabsSelector'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
-const NewForm = () => {
+const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateAction<ActiveTab>>}) => {
   const [tradeType, setTradeType] = useState<boolean>(true)
   const [selectedStock, setSelectedStock] = useState<SelectedStock | null>(null) 
   const [matchingBuyTradeId, setmatchingBuyTradeId] = useState<string | null>(null)
@@ -88,6 +88,7 @@ const NewForm = () => {
       close_id: matchingBuyTradeId ? matchingBuyTradeId : null
     }
     createTradeMutation.mutate(values)
+    setActiveTab(ActiveTab.Holdings)
   }
 
   const submitStreamHandler = async (values: any) => {
@@ -102,11 +103,12 @@ const NewForm = () => {
       currency: selectedStock.currency,
       exchange: selectedStock.exchangeShortName
     }
-    console.log(values)
     if (values.trades.length > 0) {
       createStreamAndAssignMutation.mutate(values)
+      setActiveTab(ActiveTab.Streams)
     } else {
       createStreamMutation.mutate(values)
+      setActiveTab(ActiveTab.Streams)
     }
   }
 
@@ -139,18 +141,11 @@ const NewForm = () => {
         />
       )
       : (
-        <Formik initialValues={initialStreamFormValues} validationSchema={StreamSchema} onSubmit={submitStreamHandler}>
-        {({ errors, touched }) => (
-          <Form className='m-2 flex flex-col gap-2'>
-            <StreamLabel />
-            <StreamName errors={errors} touched={touched}/>
-            <AssignTradesLabel />
-            <AssignTrades selectedStock={selectedStock}/>
-            <SubmitButton type={isTradeActive}/>
-          </Form>
-        )}
-        
-      </Formik>
+        <StreamForm 
+          submitStreamHandler={submitStreamHandler} 
+          selectedStock={selectedStock} 
+          isTradeActive={isTradeActive}
+        />
       )}
       
     </div>
@@ -169,6 +164,7 @@ interface TradeFormProps {
   setmatchingBuyTradeRequired: React.Dispatch<React.SetStateAction<boolean>>,
   isTradeActive: boolean
 }
+
 const TradeForm = (props: TradeFormProps) => {
   const {submitTradeHandler, tradeType, setTradeType, selectedStock, stockPrice, setmatchingBuyTradeId, matchingBuyTradeRequired, setmatchingBuyTradeRequired, isTradeActive} = props
   return (
@@ -201,6 +197,31 @@ const TradeForm = (props: TradeFormProps) => {
             <SubmitButton type={isTradeActive} />
           </Form>
         )}
+      </Formik>
+  )
+}
+
+interface StreamFormProps {
+  submitStreamHandler: (values: any) => Promise<void>,
+  selectedStock: SelectedStock | null,
+  isTradeActive: boolean
+}
+const StreamForm = ({ submitStreamHandler, selectedStock, isTradeActive }: StreamFormProps) => {
+  return(
+    <Formik initialValues={initialStreamFormValues} validationSchema={StreamSchema} onSubmit={submitStreamHandler}>
+        {({ errors, touched }) => (
+          <Form className='m-2 flex flex-col gap-2'>
+            <StreamLabel />
+            <StreamName errors={errors} touched={touched}/>
+            <AssignTradesLabel />
+            <AssignTrades selectedStock={selectedStock}/>
+            {errors.trades && touched.trades ? (
+              <div className='errorMessage -mt-2'>{errors.trades}</div>
+            ) : null}
+            <SubmitButton type={isTradeActive}/>
+          </Form>
+        )}
+        
       </Formik>
   )
 }

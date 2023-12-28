@@ -2,16 +2,18 @@ import { useState } from 'react'
 import { SearchOutlined, FileOutlined, SettingOutlined } from '@ant-design/icons'
 import FolderPanel from './FolderPanel'
 import Workspace from './Workspace'
+import { ActiveTab } from '../types'
 
 const Main = (): React.JSX.Element => {
   const [showPanel, setShowPanel] = useState<boolean>(true)
+  const [activeTab, setActiveTab] = useState<ActiveTab>(ActiveTab.Holdings)
   const toggleFolderPanel = () => {
     setShowPanel(!showPanel)
   }
 
   return (
-    <div id='container' className='flex min-h-screen overflow-hidden'>
-      <div id='firstSidebar' className='w-16 bg-slate-700 top-0 bottom-0 hidden lg:block'>
+    <div id='container' className='flex min-h-screen'>
+      <div id='firstSidebar' className='min-w-[3.5em] bg-slate-700 top-0 bottom-0 hidden lg:block'>
         <div className='flex flex-col gap-8 mt-1 justify-center'>
           <div className='pl-3 pr-3 pt-2'>
             <img
@@ -33,12 +35,12 @@ const Main = (): React.JSX.Element => {
         <div className='flex h-full'>
           {showPanel ? (
             <div id='filePanel' className='bg-slate-800 w-72 hidden h-full lg:block'>
-              <FolderPanel />
+              <FolderPanel setActiveTab={setActiveTab}/>
             </div>
           ) : null}
 
-          <div id='mainContent' className='bg-slate-900 grow'>
-            <Workspace />
+          <div id='mainContent' className='bg-slate-900 grow overflow-x-scroll'>
+            <Workspace activeTab={activeTab} setActiveTab={setActiveTab}/>
           </div>
         </div>
       </div>

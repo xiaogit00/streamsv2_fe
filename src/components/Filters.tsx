@@ -1,14 +1,18 @@
 const Filters = () => {
+
+  const featureComingSoon = () => {
+    alert("Feature coming soon!")
+  }
   return (
     <div id='filters' className='h-12 flex items-center gap-4'>
       <div
         id='sizeFilterContainer'
         className='m-2 p-2 h-6 flex items-center text-slate-400 bg-slate-600 text-xs rounded-lg'
       >
-        <div id='activeButton' className='w-12 text-center cursor-pointer hover:text-slate-50'>
+        <div id='activeButton' className='w-12 text-center cursor-pointer hover:text-slate-50' onClick={featureComingSoon}>
           Size
         </div>
-        <div id='allButton' className='w-12 text-center cursor-pointer hover:text-slate-50'>
+        <div id='allButton' className='w-12 text-center cursor-pointer hover:text-slate-50' onClick={featureComingSoon}>
           Recent
         </div>
       </div>
@@ -17,6 +21,7 @@ const Filters = () => {
         data-dropdown-toggle='dropdown'
         className='text-slate-400 border border-slate-300 border-opacity-30 focus:ring-1 focus:outline-none focus:ring-slate-800 rounded-lg text-xs px-4 py-1 text-center inline-flex items-center'
         type='button'
+        onClick={featureComingSoon}
       >
         Asset class{' '}
         <svg
@@ -41,6 +46,7 @@ const Filters = () => {
         data-dropdown-toggle='dropdown'
         className='text-slate-400 border border-slate-300 border-opacity-30 focus:ring-1 focus:outline-none focus:ring-slate-800 rounded-lg text-xs px-4 py-1 text-center inline-flex items-center'
         type='button'
+        onClick={featureComingSoon}
       >
         Country{' '}
         <svg
@@ -65,6 +71,7 @@ const Filters = () => {
         data-dropdown-toggle='dropdown'
         className='text-slate-400 border border-slate-300 border-opacity-30 focus:ring-1 focus:outline-none focus:ring-slate-800 rounded-lg text-xs px-4 py-1 text-center inline-flex items-center'
         type='button'
+        onClick={featureComingSoon}
       >
         Sector{' '}
         <svg
@@ -87,6 +94,7 @@ const Filters = () => {
       <div
         id='winnerFilter'
         className='m-2 p-2 h-6 flex items-center text-slate-400 bg-slate-600 text-xs rounded-lg'
+        onClick={featureComingSoon}
       >
         <div id='activeButton' className='w-14 text-center cursor-pointer hover:text-slate-50'>
           Winners
@@ -101,6 +109,7 @@ const Filters = () => {
         data-dropdown-toggle='dropdown'
         className='text-slate-400 border border-slate-300 border-opacity-30 focus:ring-1 focus:outline-none focus:ring-slate-800 rounded-lg text-xs px-4 py-1 text-center inline-flex items-center'
         type='button'
+        onClick={featureComingSoon}
       >
         Start Date{' '}
         <svg
@@ -125,6 +134,7 @@ const Filters = () => {
         data-dropdown-toggle='dropdown'
         className='text-slate-400 border border-slate-300 border-opacity-30 focus:ring-1 focus:outline-none focus:ring-slate-800 rounded-lg text-xs px-4 py-1 text-center inline-flex items-center'
         type='button'
+        onClick={featureComingSoon}
       >
         End Date{' '}
         <svg
@@ -147,6 +157,7 @@ const Filters = () => {
       <div
         id='currencyFilter'
         className='m-2 p-2 h-6 flex items-center text-slate-400 bg-slate-600 text-xs rounded-lg'
+        onClick={featureComingSoon}
       >
         <div id='activeButton' className='w-10 text-center cursor-pointer hover:text-slate-50'>
           USD

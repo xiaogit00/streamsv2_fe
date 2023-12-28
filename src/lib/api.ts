@@ -7,6 +7,10 @@ export const getTrades = async (): Promise<Trade[]>=> {
   return axios.get(BASE_URL + '/api/trades').then((res) => res.data)
 }
 
-export const getStreams = async (): Promise<StreamTrade[]>=> {
+export const getStreamsWithTrades = async (): Promise<StreamTrade[]>=> {
   return axios.get(BASE_URL + '/api/streams/with-trades').then((res) => res.data)
+}
+
+export const getStreams = async (): Promise<StreamTrade[]>=> {
+  return axios.get(BASE_URL + '/api/streams').then((res) => res.data)
 }

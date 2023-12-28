@@ -5,7 +5,7 @@ const StreamLabel = () => {
     return(
         <div id='row2Labels' className='flex text-xs font-bold'>
             <label htmlFor='streamName' className='w-44'>
-                Stream Name (Optional)
+                Stream Name
             </label>
         </div>
             
@@ -21,8 +21,8 @@ const StreamName = ({errors, touched }: ErrorProps) => {
             className='w-full bg-transparent p-1 text-xs rounded-md border border-slate-700 outline-none focus:border-slate-600'
             autoComplete='off'
             />
-            {errors.qty && touched.qty ? (
-            <div className='errorMessage'>{errors.qty}</div>
+            {errors.stream_name && touched.stream_name ? (
+            <div className='errorMessage'>{errors.stream_name}</div>
             ) : null}
         </div>
     )

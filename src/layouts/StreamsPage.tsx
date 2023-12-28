@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getStreams } from '../lib/api'
+import { getStreamsWithTrades } from '../lib/api'
 import TableHead from '../components/TableHead'
 import { ActiveTab, ColdStreamsCalc, GroupedStreamTrades, GroupedTrades, ProcessedTrades, StreamTrade } from '../types'
 import { calculateColdStreams } from '../utils/calculateColdStreams'
@@ -7,8 +7,8 @@ import TableRowStreams from '../components/TableRowStreams'
 
 const StreamsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
     const { isLoading, isError, data, error } = useQuery({
-      queryKey: ['streams'],
-      queryFn: getStreams,
+      queryKey: ['streamsWithTrades'],
+      queryFn: getStreamsWithTrades,
     })
     if (isLoading) {
       return <span>Loading...</span>
@@ -18,7 +18,6 @@ const StreamsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
       return <span>Error: {error.message}</span>
     }
     if (!data) return null
-  
     const groupedByStream = data.reduce<GroupedStreamTrades>((acc, obj) => {
       const { stream_id } = obj;
       if (!acc[stream_id]) {
@@ -27,7 +26,6 @@ const StreamsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
       acc[stream_id].push(obj)
       return acc;
     }, {})
-    
     return (
       <div id='table' className={`h-full mt-2 ${activeTab === ActiveTab.Streams ? '' : 'hidden'}`}>
         <table className='min-w-full divide-y divide-slate-400 divide-opacity-30'>

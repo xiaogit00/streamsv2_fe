@@ -15,6 +15,10 @@ export const TradeSchema = Yup.object().shape({
   });
 
 export const StreamSchema = Yup.object().shape({
-  name: Yup.string()
+  stream_name: Yup.string()
+    .required('*Required')
     .typeError('*Please enter a valid name.'),
+  trades: Yup.array()
+    .min(1, "*You need to select at least 1 trade.")
+    .required("*Required")
 });

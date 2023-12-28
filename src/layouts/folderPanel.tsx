@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { DownOutlined, RightOutlined } from '@ant-design/icons'
 import TradesFiles from '../components/TradesFiles'
 import NewForm from '../components/NewForm'
+import { ActiveTab } from '../types'
+import StreamsFiles from '../components/StreamsFiles'
 
-const FolderPanel = (): React.JSX.Element => {
+const FolderPanel = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateAction<ActiveTab>>}): React.JSX.Element => {
   const [showStreams, setShowStreams] = useState<boolean>(false)
   const [showTrades, setShowTrades] = useState<boolean>(false)
 
@@ -21,7 +23,7 @@ const FolderPanel = (): React.JSX.Element => {
         <p>STREAMS</p>
       </div>
 
-      {showStreams ? <div id='streamsFiles' className='h-24'></div> : null}
+      {showStreams ? <StreamsFiles show={showStreams} /> : null}
 
       <div
         id='trades'
@@ -33,7 +35,9 @@ const FolderPanel = (): React.JSX.Element => {
       </div>
 
       <TradesFiles show={showTrades} />
-      <NewForm />
+      <NewForm 
+        setActiveTab={setActiveTab}
+      />
     </div>
   )
 }

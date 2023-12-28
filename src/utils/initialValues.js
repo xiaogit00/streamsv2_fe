@@ -13,7 +13,7 @@ function padTo2Digits(num) {
 export const initialTradeFormValues = {
     date: formatDate(),
     type: true,
-    qty: 10000,
+    qty: '',
     price: '',
     exchange_fees: '',
     currency: '',

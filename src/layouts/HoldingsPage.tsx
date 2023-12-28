@@ -29,7 +29,7 @@ const HoldingsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
   }, {})
   
   return (
-    <div id='table' className={`h-full mt-2 ${activeTab === ActiveTab.Holdings ? '' : 'hidden'}`}>
+    <div id='table' className={`h-full overflow-x-auto mt-2 ${activeTab === ActiveTab.Holdings ? '' : 'hidden'}`}>
       <table className='min-w-full divide-y divide-slate-400 divide-opacity-30'>
         <TableHead type={'holdings'}/>
         <tbody className=''>
