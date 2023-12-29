@@ -49,7 +49,10 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
         }
         return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/stream-trades/bulk-assign', bulkAssignPayload)
     }, 
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ['streams']}),
+    onSettled: () => Promise.all([    
+      queryClient.invalidateQueries({ queryKey: ['streams']}),
+      queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']})
+  ]),
     mutationKey: ['newStream']
     })
 
@@ -58,7 +61,7 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
       console.log("createStream is called")
         return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream)
     }, 
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ['streams']}),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']}),
     mutationKey: ['newStream']
     })
 

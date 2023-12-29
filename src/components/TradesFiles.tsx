@@ -18,7 +18,10 @@ const TradesFiles = ({ show }: TradesFilesProps) => {
     mutationFn: async (tradeId: string) => {
       return axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/trades/${tradeId}`)
     }, 
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ['trades']}),
+    onSettled: () => Promise.all([    
+      queryClient.invalidateQueries({ queryKey: ['trades']}),
+      queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']})
+  ]),
     mutationKey: ['deleteTrade']
   })
 
