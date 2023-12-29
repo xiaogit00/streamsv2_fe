@@ -5,6 +5,8 @@ import { ActiveTab } from '../types'
 import Tabs from '../components/Tabs'
 import HoldingsPage from './HoldingsPage'
 import StreamsPage from './StreamsPage'
+import { useQuery } from '@tanstack/react-query'
+
 
 const Workspace = ({activeTab, setActiveTab }: {activeTab: ActiveTab, setActiveTab: React.Dispatch<React.SetStateAction<ActiveTab>>}): React.JSX.Element => {
   

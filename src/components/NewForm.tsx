@@ -18,6 +18,7 @@ import { AssignTrades, AssignTradesLabel } from './StreamsForm/AssignTrades'
 import TabsSelector from './TabsSelector'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { authConfig } from '../lib/api'
 
 const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateAction<ActiveTab>>}) => {
   const [tradeType, setTradeType] = useState<boolean>(true)
@@ -32,7 +33,7 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
 
   const createTradeMutation = useMutation({
     mutationFn: async (newTrade: NewTrade) => {
-      return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/trades', newTrade)
+      return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/trades', newTrade, authConfig)
     }, 
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['trades']}),
     mutationKey: ['newTrade']
@@ -41,13 +42,13 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
   const createStreamAndAssignMutation = useMutation({
     mutationFn: async (newStream: NewStreamWithTrades) => {
       console.log("createStreamandAssign is called")
-        const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream)
+        const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream, authConfig)
         const streamId = res.data.id
         const bulkAssignPayload = {
             stream_id: streamId,
             trades: newStream.trades
         }
-        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/stream-trades/bulk-assign', bulkAssignPayload)
+        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/stream-trades/bulk-assign', bulkAssignPayload, authConfig)
     }, 
     onSettled: () => Promise.all([    
       queryClient.invalidateQueries({ queryKey: ['streams']}),
@@ -59,7 +60,7 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
   const createStreamMutation = useMutation({
     mutationFn: async (newStream) => {
       console.log("createStream is called")
-        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream)
+        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream, authConfig)
     }, 
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']}),
     mutationKey: ['newStream']

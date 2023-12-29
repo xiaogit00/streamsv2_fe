@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient, useMutationState, useMutation } from '@tanstack/react-query'
-import { getStreams } from '../lib/api'
+import { authConfig, getStreams } from '../lib/api'
 import logo from '../assets/sound-wave.png'
 import deleteLogo from '../assets/delete.png'
 import penLogo from '../assets/pen.png'
@@ -21,7 +21,7 @@ const StreamFiles = ({ show }: StreamsFilesProps) => {
 
   const deleteStreamMutation = useMutation({
     mutationFn: async (streamId: string) => {
-      return axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/streams/${streamId}`)
+      return axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/streams/${streamId}`, authConfig)
     }, 
     onSettled: () => Promise.all([    
       queryClient.invalidateQueries({ queryKey: ['streams']}),
