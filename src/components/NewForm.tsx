@@ -32,7 +32,6 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
 
   const createTradeMutation = useMutation({
     mutationFn: async (newTrade: NewTrade) => {
-      await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulating delay 
       return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/trades', newTrade)
     }, 
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['trades']}),
