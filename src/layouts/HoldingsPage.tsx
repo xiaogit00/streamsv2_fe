@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { getTrades } from '../lib/api'
 import TableHead from '../components/TableHead'
-import { ActiveTab, GroupedTrades, ProcessedTrades } from '../types'
+import { ActiveTab, ColdStreamsCalc, GroupedTrades, ProcessedTrades } from '../types'
 import { process } from '../utils/holdings'
 import TableRowHoldings from '../components/TableRowHoldings'
+import { calculateColdStreams } from '../utils/calculateColdStreams'
 
 const HoldingsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
   const { isLoading, isError, data, error } = useQuery({
@@ -35,9 +36,9 @@ const HoldingsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
         <tbody className=''>
           {Object.entries(groupedByTicker).map((entries) => {
             const [ticker, trades] = entries
-            const processedData: ProcessedTrades = process(trades)
+            const coldStreamCalcs: ColdStreamsCalc = calculateColdStreams(trades)
             return(
-              <TableRowHoldings key={trades[0].id} processedTrades={processedData} />
+              <TableRowHoldings key={trades[0].id} coldStreamCalcs={coldStreamCalcs} />
             )
           })}
         </tbody>
