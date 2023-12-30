@@ -1,11 +1,10 @@
 import { useQuery, useQueryClient, useMutationState, useMutation } from '@tanstack/react-query'
-import { authConfig, getTrades } from '../lib/api'
+import { deleteTrade, getTrades } from '../lib/api'
 import logo from '../assets/letter.png'
 import deleteLogo from '../assets/delete.png'
 import penLogo from '../assets/pen.png'
 import Indicator from './Indicator'
 import { useState } from 'react'
-import axios from 'axios'
 
 interface TradesFilesProps {
   show: boolean
@@ -15,9 +14,7 @@ const TradesFiles = ({ show }: TradesFilesProps) => {
   const queryClient = useQueryClient()
 
   const deleteTradeMutation = useMutation({
-    mutationFn: async (tradeId: string) => {
-      return axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/trades/${tradeId}`, authConfig)
-    }, 
+    mutationFn: deleteTrade, 
     onSettled: () => Promise.all([    
       queryClient.invalidateQueries({ queryKey: ['trades']}),
       queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']})

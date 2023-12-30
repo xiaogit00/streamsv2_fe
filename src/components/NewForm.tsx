@@ -18,7 +18,7 @@ import { AssignTrades, AssignTradesLabel } from './StreamsForm/AssignTrades'
 import TabsSelector from './TabsSelector'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { authConfig } from '../lib/api'
+import { createStream, createStreamAndAssign, createTrade } from '../lib/api'
 
 const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateAction<ActiveTab>>}) => {
   const [tradeType, setTradeType] = useState<boolean>(true)
@@ -32,24 +32,13 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
   const queryClient = useQueryClient()
 
   const createTradeMutation = useMutation({
-    mutationFn: async (newTrade: NewTrade) => {
-      return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/trades', newTrade, authConfig)
-    }, 
+    mutationFn: createTrade, 
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['trades']}),
     mutationKey: ['newTrade']
   })
 
   const createStreamAndAssignMutation = useMutation({
-    mutationFn: async (newStream: NewStreamWithTrades) => {
-      console.log("createStreamandAssign is called")
-        const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream, authConfig)
-        const streamId = res.data.id
-        const bulkAssignPayload = {
-            stream_id: streamId,
-            trades: newStream.trades
-        }
-        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/stream-trades/bulk-assign', bulkAssignPayload, authConfig)
-    }, 
+    mutationFn: createStreamAndAssign, 
     onSettled: () => Promise.all([    
       queryClient.invalidateQueries({ queryKey: ['streams']}),
       queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']})
@@ -58,10 +47,7 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
     })
 
   const createStreamMutation = useMutation({
-    mutationFn: async (newStream) => {
-      console.log("createStream is called")
-        return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream, authConfig)
-    }, 
+    mutationFn: createStream, 
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']}),
     mutationKey: ['newStream']
     })
@@ -78,6 +64,7 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
     } else setmatchingBuyTradeRequired(false)
 
     const {price, qty, exchange_fees} = values
+    console.log("This is reached in submit Trade handler")
     const cost = Number(price) * Number(qty)
     values = {
       ...values,

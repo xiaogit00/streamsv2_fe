@@ -1,13 +1,10 @@
 import { useQuery, useQueryClient, useMutationState, useMutation } from '@tanstack/react-query'
-import { authConfig, getStreams } from '../lib/api'
+import { deleteStream, getStreams } from '../lib/api'
 import logo from '../assets/sound-wave.png'
 import deleteLogo from '../assets/delete.png'
 import penLogo from '../assets/pen.png'
-import { NewTrade } from '../types'
-import { toNewTrade } from '../utils/typeguards'
 import { useState } from 'react'
-import Indicator from './Indicator'
-import axios from 'axios'
+
 
 interface StreamsFilesProps {
   show: boolean
@@ -20,9 +17,7 @@ const StreamFiles = ({ show }: StreamsFilesProps) => {
   const queryClient = useQueryClient()
 
   const deleteStreamMutation = useMutation({
-    mutationFn: async (streamId: string) => {
-      return axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/streams/${streamId}`, authConfig)
-    }, 
+    mutationFn: deleteStream, 
     onSettled: () => Promise.all([    
       queryClient.invalidateQueries({ queryKey: ['streams']}),
       queryClient.invalidateQueries({ queryKey: ['streamsWithTrades']})
