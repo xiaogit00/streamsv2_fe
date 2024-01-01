@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { NewStream, NewStreamWithTrades, NewTrade, StreamTrade, Trade } from '../types'
 
-export const BASE_URL = process.env.REACT_APP_BACKEND_URL 
+export const BASE_URL = process.env.REACT_APP_BACKEND_URL
 
 export const getTrades = async (): Promise<Trade[]>=> {
   const token = localStorage.getItem('token')
