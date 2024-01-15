@@ -49,7 +49,7 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
         <input
           id='tickerSearch'
           placeholder='*Enter asset name/ticker'
-          className='bg-slate-700 w-full outline-none text-sm p-1'
+          className='bg-slate-700 w-full outline-none text-sm p-1 stock-selector'
           value={inputValue}
           onChange={handleInputChange}
           onBlur={() => setShowSearchDropdown(false)}

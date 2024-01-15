@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState, Component, useContext } from 'react'
 import { SearchOutlined, FileOutlined, SettingOutlined } from '@ant-design/icons'
+import { ShepherdTourContext } from 'react-shepherd'
 import FolderPanel from './FolderPanel'
 import owl from '../assets/owl.png'
 import Workspace from './Workspace'
@@ -7,11 +8,14 @@ import { ActiveTab } from '../types'
 import { fetchGuestToken } from '../services/fetchGuestToken'
 
 
+
 const Main = (): React.JSX.Element => {
 
   const [showPanel, setShowPanel] = useState<boolean>(true)
   const [activeTab, setActiveTab] = useState<ActiveTab>(ActiveTab.Holdings)
-  
+  const tour = useContext(ShepherdTourContext);
+  console.log('tour:', tour)
+
   const toggleFolderPanel = () => {
     setShowPanel(!showPanel)
   }
@@ -27,6 +31,7 @@ const Main = (): React.JSX.Element => {
 
   return (
     <div id='container' className='flex min-h-screen'>
+      
       <div id='firstSidebar' className='min-w-[3.5em] bg-slate-700 top-0 bottom-0 hidden lg:block'>
         <div className='flex flex-col gap-8 mt-1 justify-center h-screen'>
           <div className='pl-3 pr-3 pt-2'>
@@ -43,8 +48,13 @@ const Main = (): React.JSX.Element => {
           <SettingOutlined 
             className='text-3xl text-zinc-100 opacity-30 text-center hover:opacity-90 cursor-pointer' 
           />
-          <div className='mt-auto p-2 relative'>
-            <img title="Logged in as guest" src={owl} className='mb-4 w-10 invert opacity-80' />
+          
+            <div className='mt-auto p-2 relative'>
+              <img title="Logged in as guest" 
+                  src={owl} 
+                  className='mb-4 w-10 invert opacity-80' 
+                  onClick={() => tour?.start()}
+              />
           </div>
         </div>
       </div>
