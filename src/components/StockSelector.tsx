@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import axios from "axios"
 import { SelectedStock } from "../types"
+import { ShepherdTourContext } from "react-shepherd"
 
 interface StockSelectorProps {
   setSelectedStock: React.Dispatch<SelectedStock | null>
@@ -13,15 +14,20 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
     const [debouncedInput, setDebouncedInput] = useState<string>('')
     const [showSearchDropdown, setShowSearchDropdown] = useState<boolean>(false)
     const [searchResults, setSearchResults] = useState<any | null>(null)
-  
+    const tour = useContext(ShepherdTourContext);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.value === '') setSelectedStock(null)
       setInputValue(e.target.value)
     }
     
     const handleSelectStock = (item: SelectedStock) => {
-        setSelectedStock(item)
-        setInputRequired(false)
+      const currentStep = tour?.getCurrentStep()
+      if (currentStep?.id === 'slide2') {
+        tour?.next()
+      }
+      setSelectedStock(item)
+      setInputRequired(false)
     }
   
     useEffect(() => {
@@ -36,6 +42,11 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
         axios.get(`https://financialmodelingprep.com/api/v3/search?query=${debouncedInput}&apikey=${process.env.REACT_APP_FMP_APIKEY}`)
           .then((res:any) => {
             setShowSearchDropdown(true)
+            const currentStep = tour?.getCurrentStep()
+            if (currentStep?.id === 'slide2') {
+              tour?.hide()
+            }
+            
             setSearchResults(res.data)
           })
           .catch((err: any) => {
@@ -64,7 +75,7 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
         }
 
         {showSearchDropdown && searchResults && (
-          <div className='p-1 absolute bg-slate-700 w-full h-52 overflow-y-auto scrollbar'>
+          <div id='searchResultsDropdown' className='p-1 absolute bg-slate-700 w-full h-52 overflow-y-auto scrollbar'>
             {searchResults.map((item: any) => {
               return(
                 <div id='searchRowContainer' onMouseDown={() => handleSelectStock(item)} key={item.symbol} className='p-1 flex justify-between items-center cursor-pointer hover:bg-slate-500 '>

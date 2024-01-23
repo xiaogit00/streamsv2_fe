@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { NewStream, NewStreamWithTrades, NewTrade, StreamTrade, Trade } from '../types'
 
-export const BASE_URL = process.env.REACT_APP_BACKEND_URL
+export const BASE_URL = window.location.origin
 
 export const getTrades = async (): Promise<Trade[]>=> {
   const token = localStorage.getItem('token')
@@ -22,7 +22,7 @@ export const createTrade = async (newTrade: NewTrade) => {
         Authorization:`bearer ${token}`
     }
   }
-  return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/trades', newTrade, authConfig)
+  return axios.post(window.location.origin + '/api/trades', newTrade, authConfig)
 }
 
 export const deleteTrade = async (tradeId: string) => {
@@ -33,7 +33,7 @@ export const deleteTrade = async (tradeId: string) => {
         Authorization:`bearer ${token}`
     }
   }
-  return axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/trades/${tradeId}`, authConfig)
+  return axios.delete(window.location.origin + `/api/trades/${tradeId}`, authConfig)
 }
 
 export const getStreamsWithTrades = async (): Promise<StreamTrade[]>=> {
@@ -66,7 +66,7 @@ export const createStream = async (newStream: NewStream) => {
         Authorization:`bearer ${token}`
     }
   }
-  return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream, authConfig)
+  return axios.post(window.location.origin + '/api/streams', newStream, authConfig)
 }
 
 export const createStreamAndAssign = async (newStream: NewStreamWithTrades) => {
@@ -77,13 +77,13 @@ export const createStreamAndAssign = async (newStream: NewStreamWithTrades) => {
           Authorization:`bearer ${token}`
       }
     }
-    const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/streams', newStream, authConfig)
+    const res = await axios.post(window.location.origin + '/api/streams', newStream, authConfig)
     const streamId = res.data.id
     const bulkAssignPayload = {
         stream_id: streamId,
         trades: newStream.trades
     }
-    return axios.post(process.env.REACT_APP_BACKEND_URL + '/api/stream-trades/bulk-assign', bulkAssignPayload, authConfig)
+    return axios.post(window.location.origin + '/api/stream-trades/bulk-assign', bulkAssignPayload, authConfig)
 }
 
 export const deleteStream = async (streamId: string) => {
@@ -94,5 +94,5 @@ export const deleteStream = async (streamId: string) => {
         Authorization:`bearer ${token}`
     }
   }
-  return axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/streams/${streamId}`, authConfig)
+  return axios.delete(window.location.origin + `/api/streams/${streamId}`, authConfig)
 }

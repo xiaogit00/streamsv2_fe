@@ -1,5 +1,5 @@
 import { Formik, Field, Form } from 'formik'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import StockSelector from './StockSelector'
 import { initialStreamFormValues, initialTradeFormValues } from '../utils/initialValues'
 import { StreamSchema, TradeSchema } from '../utils/yupSchema'
@@ -19,6 +19,7 @@ import TabsSelector from './TabsSelector'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { createStream, createStreamAndAssign, createTrade } from '../lib/api'
+import { ShepherdTourContext } from 'react-shepherd'
 
 const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateAction<ActiveTab>>}) => {
   const [tradeType, setTradeType] = useState<boolean>(true)
@@ -28,6 +29,7 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
   const [stockPrice, setStockPrice] = useState<string | null>(null)
   const [inputRequired, setInputRequired] = useState<boolean>(false)
   const [isTradeActive, setIsTradeActive] = useState<boolean>(true)
+  const tour = useContext(ShepherdTourContext)
   
   const queryClient = useQueryClient()
 
@@ -62,7 +64,7 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
       setmatchingBuyTradeRequired(true)
       return
     } else setmatchingBuyTradeRequired(false)
-
+    
     const {price, qty, exchange_fees} = values
     console.log("This is reached in submit Trade handler")
     const cost = Number(price) * Number(qty)
@@ -160,7 +162,7 @@ const TradeForm = (props: TradeFormProps) => {
   return (
     <Formik initialValues={initialTradeFormValues} validationSchema={TradeSchema} onSubmit={submitTradeHandler}>
         {({ errors, touched }) => (
-          <Form className='m-2 flex flex-col gap-2'>
+          <Form id='tradeForm' className='m-2 flex flex-col gap-2'>
             <DateTypeLabels />
             <div id='row1Input' className='flex items-start pt-1 gap-4'>
               <DateSelector errors={errors} touched={touched}/>
@@ -200,7 +202,7 @@ const StreamForm = ({ submitStreamHandler, selectedStock, isTradeActive }: Strea
   return(
     <Formik initialValues={initialStreamFormValues} validationSchema={StreamSchema} onSubmit={submitStreamHandler}>
         {({ errors, touched }) => (
-          <Form className='m-2 flex flex-col gap-2'>
+          <Form id='streams-form' className='m-2 flex flex-col gap-2'>
             <StreamLabel />
             <StreamName errors={errors} touched={touched}/>
             <AssignTradesLabel />

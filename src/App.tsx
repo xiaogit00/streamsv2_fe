@@ -2,15 +2,15 @@ import Main from './layouts/Main'
 import './App.css'
 import { steps } from './utils/steps'
 import { ShepherdTour } from 'react-shepherd'
-import 'shepherd.js/dist/css/shepherd.css';
+import './styles/shepherd.css';
 
 const tourOptions = {
   defaultStepOptions: {
     cancelIcon: {
-      enabled: true
+      enabled: false
     }
   },
-  useModalOverlay: false
+  useModalOverlay: true
 };
 
 function App(): React.JSX.Element {

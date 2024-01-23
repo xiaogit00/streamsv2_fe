@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import Spinner from "../Spinner"
-import axios from "axios"
 import { getStockPrice } from "../../services/pricing"
 
 const StockPrice = ({ ticker, currency, stockPrice, setStockPrice }: StockPriceProps) => {

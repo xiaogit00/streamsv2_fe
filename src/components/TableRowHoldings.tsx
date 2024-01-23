@@ -33,7 +33,7 @@ const TableRowHoldings = ({ coldStreamCalcs }: {coldStreamCalcs: ColdStreamsCalc
     
   if (isError) {
     return(
-      <tr className='text-slate-400'>
+      <tr id='trades-table-row' className='text-slate-400'>
         <td className='px-4 py-4 text-sm font-medium text-slate-400 whitespace-nowrap'>0</td>
         <td className='px-4 py-4 text-sm whitespace-nowrap'>{coldStreamCalcs.ticker}</td>
         <td className='px-4 py-4 text-sm whitespace-nowrap'>{coldStreamCalcs.name}</td>
@@ -50,18 +50,18 @@ const TableRowHoldings = ({ coldStreamCalcs }: {coldStreamCalcs: ColdStreamsCalc
   }
   
   return (
-    <tr className='text-slate-400'>
+    <tr id='trades-table-row' className='text-slate-400'>
       <td className='px-4 py-4 text-sm font-medium text-slate-400 whitespace-nowrap'>0</td>
       <td className='px-4 py-4 text-sm whitespace-nowrap'>{coldStreamCalcs.ticker}</td>
       <td className='px-4 py-4 text-sm whitespace-nowrap'>{coldStreamCalcs.name}</td>
       <td className='px-4 py-4 text-sm whitespace-nowrap'>{coldStreamCalcs.qtyOpen}</td>
-      <td className='tableRow'>{coldStreamCalcs.currency}${coldStreamCalcs.avgBuyPrice}</td>
+      <td id='avg-cost-basis' className='tableRow'>{coldStreamCalcs.currency}${coldStreamCalcs.avgBuyPrice}</td>
       <td className='tableRow'>{coldStreamCalcs.currency}${stockPrice ? stockPrice : <Spinner />}</td>
-      <td className='tableRow'>{hotValues !== null  ? Number(hotValues.unrealizedReturns * 100).toFixed(2) : <Spinner />}%</td>
+      <td id='unrealized-returns' className='tableRow'>{hotValues !== null  ? Number(hotValues.unrealizedReturns * 100).toFixed(2) : <Spinner />}%</td>
       <td className='tableRow'>{coldStreamCalcs.currency}${coldStreamCalcs.purchaseValueOpen}</td>
       <td className='tableRow'>{coldStreamCalcs.currency}${hotValues !== null ? hotValues.currentValue : <Spinner />}</td>
       <td className='tableRow'>{getRemainingMonths(coldStreamCalcs.firstHeld)}</td>
-      <td className='tableRow'>{Number.isNaN(coldStreamCalcs.realizedReturns) ? 'None' : coldStreamCalcs.realizedReturns * 100 + '%'}</td>
+      <td id='realized-returns' className='tableRow'>{Number.isNaN(coldStreamCalcs.realizedReturns) ? 'None' : coldStreamCalcs.realizedReturns * 100 + '%'}</td>
     </tr>
   )
   }

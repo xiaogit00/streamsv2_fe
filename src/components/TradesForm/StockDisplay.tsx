@@ -1,3 +1,4 @@
+import { useContext } from "react"
 import { SelectedStock } from "../../types"
 import StockPrice from "./StockPrice"
 

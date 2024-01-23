@@ -17,6 +17,6 @@ export const fetchGuestToken = async () => {
         osVersion, 
         userId
     }
-    const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/guest-tokens', payload)
+    const res = await axios.post(window.location.origin + '/api/guest-tokens', payload)
     return res.data
 }

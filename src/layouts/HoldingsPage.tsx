@@ -31,9 +31,22 @@ const HoldingsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
   
   return (
     <div id='table' className={`h-full mt-2 ${activeTab === ActiveTab.Holdings ? '' : 'hidden'}`}>
-      <table className='min-w-full divide-y divide-slate-400 divide-opacity-30'>
+      <table id='trade-table' className='min-w-full divide-y divide-slate-400 divide-opacity-30'>
+        <colgroup>
+          <col span={1} id='first-column'/>
+          <col span={1} id='second-column'/>
+          <col span={1} id='third-column'/>
+          <col span={1} id='fourth-column'/>
+          <col span={1} id='fifth-column'/>
+          <col span={1} id='sixth-column'/>
+          <col span={1} id='seventh-column'/>
+          <col span={1} id='eighth-column'/>
+          <col span={1} id='ninth-column'/>
+          <col span={1} id='tenth-column'/>
+          <col span={1} id='eleventh-column'/>
+        </colgroup>
         <TableHead type={'holdings'}/>
-        <tbody className=''>
+        <tbody id='trade-body' className=''>
           {Object.entries(groupedByTicker).map((entries) => {
             const [ticker, trades] = entries
             const coldStreamCalcs: ColdStreamsCalc = calculateColdStreams(trades)

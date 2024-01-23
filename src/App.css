@@ -42,3 +42,63 @@ input[type='date'] {
   font-size: 0.8em;
   color: tomato;
 }
+
+/* SHEPHERD */
+.shepherd-welcome.shepherd-element {
+  height:500px;
+  max-width: 800px;
+}
+.shepherd-slide1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+.shepherd-slide1 img {
+  width: 144px;
+}
+.shepherd-slide1 h3 {
+  font-size: xx-large;
+  font-weight: 600;
+}
+
+.shepherd-slide1 h6 {
+  font-size:large;
+}
+
+.shepherd-slide1 p {
+  font-size:small;
+  font-style: italic;
+  width: 80%;
+  
+}
+
+.shepherd-button.fixed-width {
+  width: 244px;
+}
+
+.shepherd-slide2.shepherd-element {
+  max-width: 400px;
+  padding: 8px;
+}
+
+.shepherd-slide3.shepherd-element {
+  max-width: 500px;
+}
+
+.shepherd-slide3.shepherd-element .shepherd-text {
+  font-style: italic;
+}
+
+
+.shepherd-slide3.shepherd-element p {
+  width: 80%;
+}
+
+.shepherd-button.next-button {
+  width: 122px;
+  height: 3em;
+}
+
