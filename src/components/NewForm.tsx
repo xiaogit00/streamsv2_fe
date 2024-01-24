@@ -98,9 +98,11 @@ const NewForm = ({ setActiveTab }: {setActiveTab: React.Dispatch<React.SetStateA
     if (values.trades.length > 0) {
       createStreamAndAssignMutation.mutate(values)
       setActiveTab(ActiveTab.Streams)
+      tour?.next()
     } else {
       createStreamMutation.mutate(values)
       setActiveTab(ActiveTab.Streams)
+      tour?.next()
     }
   }
 

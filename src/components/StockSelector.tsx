@@ -23,11 +23,12 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
     
     const handleSelectStock = (item: SelectedStock) => {
       const currentStep = tour?.getCurrentStep()
-      if (currentStep?.id === 'slide2') {
+      if (currentStep?.id === 'slide2' || currentStep?.id === 'slide7') {
         tour?.next()
       }
       setSelectedStock(item)
       setInputRequired(false)
+      setInputValue('')
     }
   
     useEffect(() => {
@@ -43,7 +44,7 @@ const StockSelector = ({ setSelectedStock, inputRequired, setInputRequired }: St
           .then((res:any) => {
             setShowSearchDropdown(true)
             const currentStep = tour?.getCurrentStep()
-            if (currentStep?.id === 'slide2') {
+            if (currentStep?.id === 'slide2' || currentStep?.id === 'slide7') {
               tour?.hide()
             }
             

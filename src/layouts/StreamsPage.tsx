@@ -27,7 +27,7 @@ const StreamsPage = ({ activeTab }: {activeTab: ActiveTab}) => {
       return acc;
     }, {})
     return (
-      <div id='table' className={`h-full mt-2 ${activeTab === ActiveTab.Streams ? '' : 'hidden'}`}>
+      <div id='streams-table' className={`h-full mt-2 ${activeTab === ActiveTab.Streams ? '' : 'hidden'}`}>
         <table className='min-w-full divide-y divide-slate-400 divide-opacity-30'>
           <TableHead type={'streams'}/>
           <tbody className=''>

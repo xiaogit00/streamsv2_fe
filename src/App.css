@@ -62,21 +62,61 @@ input[type='date'] {
 .shepherd-slide1 h3 {
   font-size: xx-large;
   font-weight: 600;
+  line-height: normal;
+  max-width: 88%;
 }
 
 .shepherd-slide1 h6 {
   font-size:large;
+  padding-left: 2em;
+  padding-right: 1em;
 }
 
 .shepherd-slide1 p {
   font-size:small;
   font-style: italic;
   width: 80%;
+}
+
+.shepherd-side.shepherd-element {
+  max-width: 400px;
+  padding: 8px;
+}
+
+.shepherd-side .shepherd-header {
+  /* border: 1px solid red; */
+  display: block;
+  /* max-width: 400px;
+  padding: 8px; */
+}
+
+.shepherd-side-slim.shepherd-element {
+  max-width: 244px;
+  padding: 8px;
+}
+.shepherd-side-slim .shepherd-header {
+  display: block;
+}
+
+.shepherd-center.shepherd-element {
+  max-width: 600px;
+  padding: 8px;
+  
+}
+
+
+.shepherd-feature.shepherd-element {
+  max-width: 800px;
+  padding-bottom: 2em;
   
 }
 
 .shepherd-button.fixed-width {
-  width: 244px;
+  width: auto;
+}
+
+.shepherd-button.skip-button {
+  width: 188px;
 }
 
 .shepherd-slide2.shepherd-element {

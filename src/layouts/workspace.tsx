@@ -12,7 +12,7 @@ const Workspace = ({activeTab, setActiveTab }: {activeTab: ActiveTab, setActiveT
   
   
   return (
-    <div className='overflow-x-visible'>
+    <div id="workspace" className='overflow-x-visible'>
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab}/>
 
       <Header activeTab={activeTab}/>
